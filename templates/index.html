@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #ff8989; /* Exact background color from the image */
+      color: #333;
+    }
+
+    .nav-links a {
+      transition: all 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #ff6b6b; /* Adjusted hover color */
+    }
+
+    .btn {
+      background-color: #ff6b6b; /* Adjusted button color */
+      color: white;
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #ff5252; /* Adjusted hover color */
+      transform: translateY(-2px);
+    }
+
+    .upload-form {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .upload-form input[type="file"] {
+      border: 2px dashed #ff6b6b; /* Adjusted border color */
+      padding: 1rem;
+      border-radius: 10px;
+      width: 100%;
+      text-align: center;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .upload-form input[type="file"]:hover {
+      background-color: #ffe6e6; /* Adjusted hover background */
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="flex justify-between items-center p-4 bg-[#ff8989] shadow-md">
+    <div class="text-2xl font-bold text-white">BabyTalk</div>
+    <ul class="flex space-x-6 nav-links text-white font-semibold">
+      <li><a href="/" class="hover:text-[#ff6b6b]">Home</a></li>
+      <li><a href="/upload" class="hover:text-[#ff6b6b]">Upload</a></li>
+      <li><a href="#history" class="hover:text-[#ff6b6b]">History</a></li>
+      <li><a href="#blogs" class="hover:text-[#ff6b6b]">Blogs</a></li>
+    </ul>
+    <div class="text-xl font-medium text-white cursor-pointer hover:text-[#ff6b6b]"><img src="{% static 'linkedin.svg' %}" alt="Linkedin" height="25px" width="25px" style="filter: invert();"></div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="text-center py-16 px-4 relative h-[486px] flex justify-center items-center">
+    <!-- Pseudo-element for background image with opacity -->
+    <div class="absolute inset-0 bg-[url('{% static 'babyfootprints.jpg' %}')] bg-cover bg-center opacity-70"></div>
+    
+    <!-- Content -->
+    <div class="relative z-10">
+      <h1 class="text-4xl font-bold text-white mb-2">Decode Your Baby's Cries Instantly</h1>
+      <p class="text-lg text-white max-w-2xl mx-auto">Our AI powered tool helps parents understand their baby's needs by analyzing cries and detecting hunger, pain, discomfort, and more.</p>
+      <button class="btn mt-4 bg-[#ff6b6b] hover:bg-[#ff5252]"><a href="upload">Get Started</a></button>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <!-- <section class="py-12 mt-0">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+      <div class="p-6 bg-[#ff6b6b] rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold text-white">AI-Powered Analysis</h3>
+        <p class="text-white">Our advanced algorithm deciphers baby cries for accurate insights.</p>
+      </div>
+      <div class="p-6 bg-[#ff8989] rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold text-white">Instant Feedback</h3>
+        <p class="text-white">Get real-time results and understand what your baby needs.</p>
+      </div>
+      <div class="p-6 bg-[#ff5252] rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold text-white">Parent-Friendly</h3>
+        <p class="text-white">Easy-to-use platform designed for new and experienced parents.</p>
+      </div>
+    </div>
+  </section>
+ -->
+  <!-- About Section -->
+  <!-- <section class="py-12 px-4 text-center bg-[#ff8989]" id="about">
+    <h2 class="text-3xl font-bold text-white mb-4">How It Works</h2>
+    <p class="text-lg text-white max-w-3xl mx-auto">Simply upload a short audio clip of your baby's cry. Our AI will analyze the sound and provide insights into what your baby might be feeling—hunger, tiredness, discomfort, or more.</p>
+  </section> -->
+
+  <!-- Footer -->
+  <footer class="text-center py-4 bg-[#ff6b6b] text-white mt-0">
+    <p>&copy; 2025 BabyTalk. All Rights Reserved.</p>
+  </footer>
+</body>
+
+</html>

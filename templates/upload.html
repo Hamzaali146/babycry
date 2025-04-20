@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analyze Lab</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #ff8989;
+      color: #333;
+    }
+
+    .btn {
+      background-color: #ff8989;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #e5735a;
+      transform: translateY(-2px);
+    }
+
+    .upload-form {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 2px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .upload-form input[type="file"] {
+      border: 2px dashed #ff8989;
+      padding: 1rem;
+      border-radius: 2px;
+      width: 100%;
+      text-align: center;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .upload-form input[type="file"]:hover {
+      background-color: #fff1e6;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      border: 5px solid white;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body class="flex flex-col items-center justify-center">
+  <!-- Navbar -->
+  <nav class="flex justify-between items-center p-4 bg-[#ff8989] shadow-md w-full">
+    <div class="text-2xl font-bold text-white">BabyTalk</div>
+    <ul class="flex space-x-6 nav-links text-white font-semibold">
+      <li><a href="/" class="">Home</a></li>
+      <li><a href="/upload" class="">Upload</a></li>
+      <li><a href="#history" class="">History</a></li>
+      <li><a href="#blogs" class="">Blogs</a></li>
+    </ul>
+    <div class="text-xl font-medium text-white cursor-pointer hover:text-[#ff6b6b]"><a href="https://www.linkedin.com/in/hamza-ali-4502189146102032428/" target="_blank"><img src="{% static 'linkedin.svg' %}" alt="Linkedin" height="25px" width="25px" style="filter: invert();"></a></div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+  <section class="mx-auto mt-16 flex flex-col md:flex-row gap-8 ">
+    <!-- Upload Section (Left) -->
+    <div class="w-full md:w-1/2 rounded-none">
+      <h1 class="text-4xl font-bold text-white  mb-6">Are you Ready?? Analyze your baby thoughts now!<span class="animate-pulse text-[40px]">🤗</span></h1>
+      <form action="{% url 'upload_audio' %}" method="post" enctype="multipart/form-data" class="upload-form">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="What's your baby name??🤗" class="mb-4 p-2 w-full border-[2px] border-dashed border-[#ff8989]">
+        <input type="file" name="audio_file" accept=".wav" class="mb-6">
+        <button type="submit" class="btn">Upload</button>
+      </form>
+      
+      
+      
+    </div>
+
+    <!-- Spectrogram Section (Right) -->
+    <div class="w-full md:w-1/2 flex justify-center items-center">
+      <div id="loading" class="hidden">
+        <div class="loading"></div>
+      </div>
+      <img id="spectrogram" class="hidden rounded-sm shadow-md" style="max-width: 100%;" />
+    </div>
+  </section>
+  <div id="result" class="mt-6 text-lg font-semibold text-white"></div>
+  <div id="explanation" class="mt-2 text-lg text-white"></div>
+  </div>
+  <!-- Footer -->
+  <!-- <footer class="text-center py-4 bg-[#ff6b6b] text-white w-full mt-auto relative bottom-0">
+    <p>&copy; 2025 BabyTalk. All Rights Reserved.</p>
+  </footer> -->
+
+  <script>
+    document.querySelector("form").addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      // Show loading animation
+      document.getElementById("loading").classList.remove("hidden");
+      document.getElementById("spectrogram").classList.add("hidden");
+      let name = document.querySelector("input[name=name]").value;
+
+      let formData = new FormData(this);
+      let response = await fetch("{% url 'upload_audio' %}", {
+        method: "POST",
+        body: formData
+      });
+      let data = await response.json();
+
+      // Hide loading animation and show result
+      document.getElementById("loading").classList.add("hidden");
+      document.getElementById("result").innerText = name+" is crying due to " + data.prediction;
+      document.getElementById("explanation").innerText = data.explanation;
+
+      if (data.spectrogram) {
+        let img = document.getElementById("spectrogram");
+        img.src = data.spectrogram;
+        img.classList.remove("hidden");
+      }
+    });
+  </script>
+</body>
+
+</html>
